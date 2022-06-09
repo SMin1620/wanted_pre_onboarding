@@ -14,7 +14,7 @@ class Post(TimeStampedModel):
     content = models.TextField('채용내용')
 
     def __str__(self):
-        return self.company
+        return self.content
 
     # 인덱스 생성
     class Meta:

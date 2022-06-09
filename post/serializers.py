@@ -15,10 +15,12 @@ class CompanySerializer(serializers.ModelSerializer):
 
 # 공고 목록 시리얼라이저
 class PostListSerializer(serializers.ModelSerializer):
+    company = CompanySerializer(read_only=True)
+
     class Meta:
         model = Post
         fields = [
-            'id', 'company', 'position', 'compensation', 'skill'
+            'id', 'company', 'position', 'compensation', 'skill', 'created'
         ]
 
 
@@ -27,6 +29,5 @@ class PostCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = [
-            'id', 'position', 'compensation',
-            'skill', 'content'
+            'company', 'position', 'compensation', 'skill', 'content'
         ]
