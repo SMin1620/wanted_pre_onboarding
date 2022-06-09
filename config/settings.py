@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 INSTALLED_APPS += [
     'post',
     'user',
+    'company',
     # drf
     'rest_framework',
 ]
@@ -147,3 +148,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AbstractUser를 상속 맏은 User 모델을 사용하기 위함
+AUTH_USER_MODEL = 'user.User'
