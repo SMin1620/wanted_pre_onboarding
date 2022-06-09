@@ -6,6 +6,7 @@ from post.models import Post
 from post.serializers import (
     PostListSerializer,
     PostCreateUpdateSerializer,
+    PostDetailSerializer,
 )
 
 
@@ -24,13 +25,20 @@ class PostListCreateAPI(mixins.ListModelMixin,
             return PostCreateUpdateSerializer
 
 
-# # 공고 상세, 수정 뷰
-# class PostDetailUpdateAPI(mixins.RetrieveModelMixin,
-#                           mixins.UpdateModelMixin,
-#                           viewsets.GenericViewSet):
-#     lookup_url_kwarg = 'post_id'
-#
-#     def get_queryset(self):
-#         return Post.objects.all()
+# 공고 상세, 수정 뷰
+class PostDetailUpdateDeleteAPI(mixins.RetrieveModelMixin,
+                          mixins.UpdateModelMixin,
+                          mixins.DestroyModelMixin,
+                          viewsets.GenericViewSet):
+    lookup_url_kwarg = 'post_id'
+
+    def get_queryset(self):
+        return Post.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return PostDetailSerializer
+        else:
+            return PostCreateUpdateSerializer
 
 

@@ -24,6 +24,18 @@ class PostListSerializer(serializers.ModelSerializer):
         ]
 
 
+# 공고 상세 시리얼라이저
+class PostDetailSerializer(serializers.ModelSerializer):
+    company = CompanySerializer(read_only=True)
+
+    class Meta:
+        model = Post
+        fields = [
+            'id', 'company', 'position', 'compensation', 'skill',
+            'content', 'created'
+        ]
+
+
 # 공고 생성, 수정 시리얼라이저
 class PostCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
