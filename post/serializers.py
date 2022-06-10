@@ -32,7 +32,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
         model = Post
         fields = [
             'id', 'company', 'position', 'compensation', 'skill',
-            'content', 'created'
+            'content', 'created', 'supported_user'
         ]
 
 
