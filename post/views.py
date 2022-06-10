@@ -9,6 +9,7 @@ from post.serializers import (
     PostListSerializer,
     PostCreateUpdateSerializer,
     PostDetailSerializer,
+    SupportSerializer
 )
 
 
@@ -43,6 +44,8 @@ class PostDetailUpdateDeleteAPI(mixins.RetrieveModelMixin,
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return PostDetailSerializer
+        elif self.request.method == 'POST':
+            return SupportSerializer
         else:
             return PostCreateUpdateSerializer
 
@@ -51,15 +54,10 @@ class PostDetailUpdateDeleteAPI(mixins.RetrieveModelMixin,
     def support(self, request, *args, **kwargs):
         user = self.request.user
         pk = self.kwargs['post_id']
-
         post = get_object_or_404(Post, pk=pk)
 
-        # 이미 지원을 했다면,
-        if post.supported_user.filter(pk=pk).exists():
-            post.supported_user.remove(user)
-        # 지원을 하지 않았다면,
-        else:
-            post.supported_user.add(user)
+        # 지원 하기
+        post.supported_user.add(user)
 
         return Response(status=status.HTTP_201_CREATED)
 

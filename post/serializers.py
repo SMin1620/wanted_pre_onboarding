@@ -1,6 +1,9 @@
 from rest_framework import serializers
 
-from post.models import Post
+from post.models import (
+    Post,
+    Support
+)
 from company.models import Company
 
 
@@ -42,4 +45,13 @@ class PostCreateUpdateSerializer(serializers.ModelSerializer):
         model = Post
         fields = [
             'company', 'position', 'compensation', 'skill', 'content'
+        ]
+
+
+# 지원 시리얼라이저
+class SupportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Support
+        fields = [
+            'post', 'user'
         ]
