@@ -3,6 +3,8 @@
 - 아래 서비스 개요 및 요구사항을 만족하는 REST API 서버를 구현합니다.
 - 사용가능 언어 와 프레임워크: **Python - Django, Flask** / **Javascript** - **Express**, **NestJS**
 
+- 본인은 Django - MySQL을 사용하였습니다.
+
 
 # 요구사항 분석
 
