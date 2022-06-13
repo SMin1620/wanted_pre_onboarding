@@ -1,4 +1,4 @@
-# Wantid Pre On Boarding 사전과제
+# Wanted Pre On Boarding 사전과제
 
 - 아래 서비스 개요 및 요구사항을 만족하는 REST API 서버를 구현합니다.
 - 사용가능 언어 와 프레임워크: **Python - Django, Flask** / **Javascript** - **Express**, **NestJS**
