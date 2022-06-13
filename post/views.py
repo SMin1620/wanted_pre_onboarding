@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
 
 from company.models import Company
-from post.models import Post
+from post.models import Post, Support
 from post.serializers import (
     PostListSerializer,
     PostCreateUpdateSerializer,
@@ -75,18 +75,33 @@ class PostDetailUpdateDeleteAPI(mixins.RetrieveModelMixin,
 
         return Response(res)
 
-
     # 지원 기능
     @action(detail=True, methods='post')
     def support(self, request, *args, **kwargs):
-        user = self.request.user
+        user = self.request.user.id
         pk = self.kwargs['post_id']
         post = get_object_or_404(Post, pk=pk)
 
         # 지원 하기
-        post.supported_user.add(user)
+        # 지원 유저가 같은 공고에 지원하지 않았다면,
+        if not Support.objects.filter(
+            user_id=user,
+            post=post
+        ).exists():
+            sup = Support.objects.create(
+                user_id=user,
+                post=post
+            )
+            sup.save()
 
-        return Response(status=status.HTTP_201_CREATED)
+            response = Response(status=status.HTTP_200_OK)
+            serializer = SupportSerializer(sup, read_only=True)
+            response.data = serializer.data
+            print(response)
+            return response
+        # 지원 유저가 해당 공고에 이미 지원하였다면,
+        else:
+            return Response({'message': '이미 지원을 하였습니다.'})
 
 
 

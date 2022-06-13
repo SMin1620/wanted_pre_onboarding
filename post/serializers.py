@@ -84,6 +84,9 @@ class PostCreateUpdateSerializer(serializers.ModelSerializer):
 class SupportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Support
-        fields = [
+        read_only_fields = [
             'post', 'user'
+        ]
+        fields = [
+            'user', 'post'
         ]

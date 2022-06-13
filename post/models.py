@@ -13,7 +13,7 @@ from user.models import User
 # Create your models here.
 # 공고 모델
 class Post(TimeStampedModel):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='company_post') # 회사 모델 외래키
+    company = models.ForeignKey(Company, on_delete=models.CASCADE) # 회사 모델 외래키
     position = models.CharField('채용포지션', max_length=50)
     compensation = models.PositiveIntegerField('채용보상금')
     skill = models.CharField('사용기술', max_length=50)
@@ -35,7 +35,7 @@ class Post(TimeStampedModel):
             models.Index(fields=('position',), name='position_idx'),
             models.Index(fields=('skill',), name='skill_idx'),
         ]
-
+#
 
 # 지원 모델
 class Support(TimeStampedModel):
