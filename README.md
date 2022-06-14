@@ -1,4 +1,4 @@
-# Wanted Pre On Boarding 사전과제
+# Wanted Pre On Boarding 백엔드 사전과제
 
 - 아래 서비스 개요 및 요구사항을 만족하는 REST API 서버를 구현합니다.
 - 사용가능 언어 와 프레임워크: **Python - Django, Flask** / **Javascript** - **Express**, **NestJS**
@@ -10,6 +10,10 @@
 
 - 본 서비스는 기업의 채용을 위한 웹 서비스 입니다.
 - 회사는 채용공고를 생성하고, 이에 사용자는 지원합니다.
+
+
+## ERD
+<img width="540" alt="image" src="https://user-images.githubusercontent.com/81574795/173620954-4d464497-928c-463c-b83a-3a13655dee78.png">
 
 
 ## CRUD
@@ -354,4 +358,118 @@ Vary: Accept
 결과 데이터를 보면 supported_user에 리스트 형식으로 지원한 유저의 id를 출력할 수 있게 구현하였습니다.
   
   
+
+## Unit Test (자세한건 코드로 확인바랍니다)
+ 
+- setUp
+```
+   def setUp(self):
+    # 슈퍼 유저 생성
+    user = User.objects.create_superuser('admin1', 'admin1@email.com', 'admin1')
+    self.user = user
+
+    # 회사 생성
+    company = Company.objects.create(
+      company_name='원티드',
+      country='한국',
+      region='서울'
+    )
+    company.save()
+    self.company = company
+    self.assertIsInstance(company, Company)
+
+    # 공고 생성
+    post = Post.objects.create(
+      company=self.company,
+      position='포지션',
+      compensation=1000000,
+      skill='사용기술',
+      content='채용내용'
+    )
+    post.save()
+    self.post = post
+    self.assertIsInstance(post, Post)
+```
+ 
+ 
+- method <GET> 공고 목록 페이지, 공고 상세 페이지
+```
+   ## === GET TEST ===
+  # post list
+  def test_post_list(self):
+    response = self.client.get(
+      f'/api/post/',
+      content_type='application/json'
+    )
+    self.assertEqual(response.status_code, 200)
+
+  # post detail
+  def test_post_detail(self):
+    response = self.client.get(
+      f'/api/post/{self.post.id}/',
+      content_type='application/json'
+    )
+    self.assertEqual(response.status_code, 200)
+```
+ 
+- method <POST> 공고 생성, 공고에 지원
+```
+   ## === POST, SUPPORT TEST ===
+  # post create
+  def test_create_post(self):
+    context = {
+      'company': self.company.id,
+      'position': '테스트 포지션',
+      'compensation': 1000000,
+      'skill': '테스트 기술',
+      'content': '테스트 내용'
+    }
+    response = self.client.post(
+      f'/api/post/',
+      json.dumps(context),
+      content_type='application/json'
+    )
+    self.assertEqual(response.status_code, 201)
+
+  # post support
+  def test_support_post(self):
+    self.client.login(username='admin1', password='admin1')
+
+    context = {
+      'user': self.user.id,
+      'post': self.post.id
+    }
+    self.client.login()
+    response = self.client.post(
+      f'/api/post/{self.post.id}/support/',
+      json.dumps(context),
+      content_type='application/json'
+    )
+    self.assertEqual(response.status_code, 200)
+```
+ 
+- method <PATCH> <DELETE> 공고 수정, 공고 삭제
+```
+   ## === PATCH, DELETE TEST ===
+  # post update
+  def test_update_post(self):
+    context = {
+      'content': '수정된 내용'
+    }
+    response = self.client.patch(
+      f'/api/post/{self.post.id}/',
+      json.dumps(context),
+      content_type='application/json'
+    )
+    self.assertEqual(response.status_code, 200)
+
+  # post delete
+  def test_delete_post(self):
+    response = self.client.delete(
+      f'/api/post/{self.post.id}/',
+      content_type='application/json'
+    )
+    self.assertEqual(response.status_code, 204)
+```
+ 
 # 끝!
