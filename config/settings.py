@@ -55,6 +55,8 @@ INSTALLED_APPS += [
     'company',
     # drf
     'rest_framework',
+    # swagger
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
