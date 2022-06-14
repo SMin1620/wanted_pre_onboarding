@@ -23,9 +23,11 @@ class PostListCreateAPI(mixins.ListModelMixin,
     filter_backends = [SearchFilter]
     search_fields = ['position', 'company__company_name', 'skill']
 
+    # 쿼리 셋
     def get_queryset(self):
         return Post.objects.all()
 
+    # 메서드 별 시리얼라이저
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return PostListSerializer
@@ -37,8 +39,6 @@ class PostListCreateAPI(mixins.ListModelMixin,
         return super().create(request, *args, **kwargs)
 
 
-
-
 # 공고 상세, 수정 뷰
 class PostDetailUpdateDeleteAPI(mixins.RetrieveModelMixin,
                                 mixins.UpdateModelMixin,
@@ -46,14 +46,19 @@ class PostDetailUpdateDeleteAPI(mixins.RetrieveModelMixin,
                                 viewsets.GenericViewSet):
     lookup_url_kwarg = 'post_id'
 
+    # 쿼리 셋
     def get_queryset(self):
         return Post.objects.all()
 
+    # 메서브 별 시리얼라이저
     def get_serializer_class(self):
+        # action == get 일때,
         if self.request.method == 'GET':
             return PostDetailSerializer
+        # action == post 일때,
         elif self.request.method == 'POST':
             return SupportSerializer
+        # action == post (support) 일때,
         else:
             return PostCreateUpdateSerializer
 
@@ -69,7 +74,7 @@ class PostDetailUpdateDeleteAPI(mixins.RetrieveModelMixin,
 
         response = Response(status=status.HTTP_200_OK)
 
-        # 기존 시리얼라이저 데이터터
+        # 기존 시리얼라이저 데이터
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         response.data = serializer.data
@@ -103,7 +108,6 @@ class PostDetailUpdateDeleteAPI(mixins.RetrieveModelMixin,
             response = Response(status=status.HTTP_200_OK)
             serializer = SupportSerializer(sup, read_only=True)
             response.data = serializer.data
-            print(response)
             return response
         # 지원 유저가 해당 공고에 이미 지원하였다면,
         else:

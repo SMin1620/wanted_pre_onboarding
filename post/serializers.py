@@ -17,7 +17,6 @@ class CompanySerializer(serializers.ModelSerializer):
         ]
 
 
-
 # 공고 목록 시리얼라이저
 class PostListSerializer(serializers.ModelSerializer):
     company_name = serializers.SerializerMethodField(read_only=True)
@@ -79,6 +78,7 @@ class PostCreateUpdateSerializer(serializers.ModelSerializer):
             'company', 'position', 'compensation', 'skill', 'content'
         ]
 
+        # 쓰기 전용으로 회사 id를 지정.
         write_only_fields = [
             'company'
         ]
