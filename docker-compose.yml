@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  db:
+    image: mariadb:10.5
+    networks:
+      - docker
+    ports:
+      - 3306:3306
+    volumes:
+      - ${PWD}/database:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: 1234
+      MARIADB_DATABASE: pre_on_boarding
+
+  web:
+    build:
+      context: ./
+    networks:
+      - docker
+    ports:
+      - 8000:8000
+    volumes:
+      - ${PWD}:/app
+    depends_on:
+      - db
+
+networks:
+  docker:
+
