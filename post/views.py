@@ -32,6 +32,12 @@ class PostListCreateAPI(mixins.ListModelMixin,
         else:
             return PostCreateUpdateSerializer
 
+    # create
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+
+
+
 
 # 공고 상세, 수정 뷰
 class PostDetailUpdateDeleteAPI(mixins.RetrieveModelMixin,

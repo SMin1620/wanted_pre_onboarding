@@ -18,3 +18,6 @@ class User(AbstractUser):
 
     created_at = models.DateTimeField('생성 날짜', auto_now_add=True)
     modified_at = models.DateTimeField('수정 날짜', auto_now=True)
+
+    class Meta:
+        db_table = 'user'

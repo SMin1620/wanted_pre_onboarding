@@ -79,6 +79,10 @@ class PostCreateUpdateSerializer(serializers.ModelSerializer):
             'company', 'position', 'compensation', 'skill', 'content'
         ]
 
+        write_only_fields = [
+            'company'
+        ]
+
 
 # 지원 시리얼라이저
 class SupportSerializer(serializers.ModelSerializer):
