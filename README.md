@@ -5,7 +5,21 @@
 
 - 본인은 Django - MySQL을 사용하였습니다.
 
+ ```
+  # 로컬로 바로 구동
+  python manage.py runserver
+  # config/settings.py
+  # db 'HOST': '127.0.0.1', 로 변경
 
+  
+  # docker desktop으로 구동
+  docker-compose up -d --build
+  # config/settings.py
+  # db 'HOST': 'db' 로 변경
+  
+  # super user, user, company의 더미 데이터를 만들었기 때문에 migrate만 하면 post를 제외한 더미데이터가 생성됩니다.
+  # admin, admin, admin@email.com (user/gen_master_data.py 더이데이터)
+ ```
 # 요구사항 분석
 
 - 본 서비스는 기업의 채용을 위한 웹 서비스 입니다.
